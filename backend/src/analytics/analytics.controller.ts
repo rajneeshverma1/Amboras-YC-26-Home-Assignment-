@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, UseGuards, Request, Query } from '@nestjs/common';
 import { AnalyticsService } from './analytics.service';
 import { OverviewResponseDto } from './dto/overview-response.dto';
 import { TopProductsResponseDto } from './dto/top-products-response.dto';
@@ -19,17 +19,17 @@ export class AnalyticsController {
   constructor(private readonly analyticsService: AnalyticsService) {}
 
   @Get('overview')
-  async getOverview(@Request() req: RequestWithUser): Promise<OverviewResponseDto> {
-    return this.analyticsService.getOverview(req.user.storeId);
+  async getOverview(@Request() req: RequestWithUser, @Query('fresh') fresh?: string): Promise<OverviewResponseDto> {
+    return this.analyticsService.getOverview(req.user.storeId, fresh === 'true');
   }
 
   @Get('top-products')
-  async getTopProducts(@Request() req: RequestWithUser): Promise<TopProductsResponseDto> {
-    return this.analyticsService.getTopProducts(req.user.storeId);
+  async getTopProducts(@Request() req: RequestWithUser, @Query('fresh') fresh?: string): Promise<TopProductsResponseDto> {
+    return this.analyticsService.getTopProducts(req.user.storeId, fresh === 'true');
   }
 
   @Get('recent-activity')
-  async getRecentActivity(@Request() req: RequestWithUser): Promise<RecentActivityResponseDto> {
-    return this.analyticsService.getRecentActivity(req.user.storeId);
+  async getRecentActivity(@Request() req: RequestWithUser, @Query('fresh') fresh?: string): Promise<RecentActivityResponseDto> {
+    return this.analyticsService.getRecentActivity(req.user.storeId, fresh === 'true');
   }
 }
