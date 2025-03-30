@@ -62,7 +62,7 @@ class ApiClient {
     localStorage.removeItem('token');
   }
 
-  private async fetch<T>(endpoint: string): Promise<T> {
+  private async fetch<T>(endpoint: string, fresh = false): Promise<T> {
     const token = this.getToken();
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
@@ -72,8 +72,14 @@ class ApiClient {
       headers['Authorization'] = `Bearer ${token}`;
     }
 
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    // Add cache-busting query parameter for fresh data
+    const url = fresh 
+      ? `${API_BASE_URL}${endpoint}${endpoint.includes('?') ? '&' : '?'}fresh=true&t=${Date.now()}`
+      : `${API_BASE_URL}${endpoint}`;
+
+    const response = await fetch(url, {
       headers,
+      cache: fresh ? 'no-store' : 'default',
     });
 
     if (!response.ok) {
@@ -105,16 +111,16 @@ class ApiClient {
     return data;
   }
 
-  async getOverview(): Promise<OverviewData> {
-    return this.fetch<OverviewData>('/api/v1/analytics/overview');
+  async getOverview(fresh = false): Promise<OverviewData> {
+    return this.fetch<OverviewData>('/api/v1/analytics/overview', fresh);
   }
 
-  async getTopProducts(): Promise<TopProductsData> {
-    return this.fetch<TopProductsData>('/api/v1/analytics/top-products');
+  async getTopProducts(fresh = false): Promise<TopProductsData> {
+    return this.fetch<TopProductsData>('/api/v1/analytics/top-products', fresh);
   }
 
-  async getRecentActivity(): Promise<RecentActivityData> {
-    return this.fetch<RecentActivityData>('/api/v1/analytics/recent-activity');
+  async getRecentActivity(fresh = false): Promise<RecentActivityData> {
+    return this.fetch<RecentActivityData>('/api/v1/analytics/recent-activity', fresh);
   }
 }
 
