@@ -52,12 +52,14 @@ export class AnalyticsService {
     }
   }
 
-  async getOverview(storeId: string): Promise<OverviewResponseDto> {
+  async getOverview(storeId: string, fresh = false): Promise<OverviewResponseDto> {
     const cacheKey = `overview:${storeId}`;
-    const cached = await this.redis.getJSON<OverviewResponseDto>(cacheKey);
     
-    if (cached) {
-      return cached;
+    if (!fresh) {
+      const cached = await this.redis.getJSON<OverviewResponseDto>(cacheKey);
+      if (cached) {
+        return cached;
+      }
     }
 
     if (this.useMockData) {
@@ -215,12 +217,14 @@ export class AnalyticsService {
     );
   }
 
-  async getTopProducts(storeId: string): Promise<TopProductsResponseDto> {
+  async getTopProducts(storeId: string, fresh = false): Promise<TopProductsResponseDto> {
     const cacheKey = `top-products:${storeId}`;
-    const cached = await this.redis.getJSON<TopProductsResponseDto>(cacheKey);
     
-    if (cached) {
-      return cached;
+    if (!fresh) {
+      const cached = await this.redis.getJSON<TopProductsResponseDto>(cacheKey);
+      if (cached) {
+        return cached;
+      }
     }
 
     if (this.useMockData) {
@@ -288,12 +292,14 @@ export class AnalyticsService {
     }
   }
 
-  async getRecentActivity(storeId: string): Promise<RecentActivityResponseDto> {
+  async getRecentActivity(storeId: string, fresh = false): Promise<RecentActivityResponseDto> {
     const cacheKey = `recent-activity:${storeId}`;
-    const cached = await this.redis.getJSON<RecentActivityResponseDto>(cacheKey);
     
-    if (cached) {
-      return cached;
+    if (!fresh) {
+      const cached = await this.redis.getJSON<RecentActivityResponseDto>(cacheKey);
+      if (cached) {
+        return cached;
+      }
     }
 
     if (this.useMockData) {
