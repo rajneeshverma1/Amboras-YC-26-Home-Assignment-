@@ -27,20 +27,21 @@ export default function DashboardPage() {
       return;
     }
 
-    fetchData();
+    // Fetch fresh data on initial load/refresh
+    fetchData(true);
     
-    // Refresh data every 30 seconds
-    const interval = setInterval(fetchData, 30000);
+    // Auto-refresh every 5 seconds (uses cache for better performance)
+    const interval = setInterval(() => fetchData(false), 5000);
     return () => clearInterval(interval);
   }, [router]);
 
-  const fetchData = async () => {
+  const fetchData = async (fresh = false) => {
     try {
       setLoading(true);
       const [overviewData, productsData, activityData] = await Promise.all([
-        apiClient.getOverview(),
-        apiClient.getTopProducts(),
-        apiClient.getRecentActivity(),
+        apiClient.getOverview(fresh),
+        apiClient.getTopProducts(fresh),
+        apiClient.getRecentActivity(fresh),
       ]);
       setOverview(overviewData);
       setTopProducts(productsData);
@@ -58,7 +59,8 @@ export default function DashboardPage() {
     router.push('/login');
   };
 
-  // Format currency with locale support`n  const formatCurrency = (value: number) => {
+  // Format currency with locale support
+  const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
