@@ -39,3 +39,5 @@ export function MetricCard({ title, value, subtitle, icon, loading }: MetricCard
     </Card>
   );
 }
+
+// Memoize for performance
