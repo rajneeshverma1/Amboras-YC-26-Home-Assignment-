@@ -58,7 +58,7 @@ export default function DashboardPage() {
     router.push('/login');
   };
 
-  const formatCurrency = (value: number) => {
+  // Format currency with locale support`n  const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
