@@ -1,3 +1,25 @@
+/**
+ * Dashboard Page - Main analytics dashboard for store owners
+ * 
+ * UX DECISIONS:
+ * 1. Auto-refresh every 5 seconds: Users see near real-time data without manual refresh
+ *    Trade-off: Slight battery/network usage vs. manual refresh friction
+ * 
+ * 2. Skeleton loaders during loading: Better perceived performance than blank screen
+ *    Why: Users see content structure immediately while data loads
+ * 
+ * 3. Fresh data on initial load: When user opens dashboard, they see latest data
+ *    Why: First impression matters - stale data on first view is confusing
+ * 
+ * 4. Cached data for auto-refresh: Subsequent updates use cache for performance
+ *    Why: Balance between freshness and server load
+ * 
+ * 5. "Add Event & Refresh" button: For demo purposes - lets users see data change
+ *    Why: Makes the dashboard interactive and demonstrates real-time capabilities
+ * 
+ * 6. Error state with alert: Clear feedback when something goes wrong
+ *    Why: Users should know if data is stale or unavailable
+ */
 'use client';
 
 import { useEffect, useState } from 'react';
