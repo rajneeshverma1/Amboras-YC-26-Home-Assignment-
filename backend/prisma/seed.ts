@@ -12,8 +12,8 @@ const STORE_ID = 'store_456';
 const EVENT_TYPES = ['page_view', 'add_to_cart', 'remove_from_cart', 'checkout_started', 'purchase'];
 
 const PRODUCTS = [
-  { id: 'prod_1', name: 'Wireless Headphones', price: 79.99 },
-  { id: 'prod_2', name: 'Smart Watch', price: 199.99 },
+  { id: 'prod_1', name: 'Wireless Headphones', price: 99.99 },
+  { id: 'prod_2', name: 'Smart Watch', price: 19.99 },
   { id: 'prod_3', name: 'Laptop Stand', price: 49.99 },
   { id: 'prod_4', name: 'USB-C Hub', price: 59.99 },
   { id: 'prod_5', name: 'Mechanical Keyboard', price: 129.99 },

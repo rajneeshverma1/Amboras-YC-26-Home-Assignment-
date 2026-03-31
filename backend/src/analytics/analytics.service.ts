@@ -7,7 +7,7 @@ import { RecentActivityResponseDto } from './dto/recent-activity-response.dto';
 
 // Mock data for demo purposes when database is not available
 const MOCK_PRODUCTS = [
-  { productId: 'prod_1', productName: 'Wireless Headphones', revenue: 2459.68, quantitySold: 31 },
+  { productId: 'prod_1', productName: 'Wireless Headphones', revenue: 245.68, quantitySold: 31 },
   { productId: 'prod_2', productName: 'Smart Watch', revenue: 5399.73, quantitySold: 27 },
   { productId: 'prod_3', productName: 'Laptop Stand', revenue: 1449.71, quantitySold: 29 },
   { productId: 'prod_4', productName: 'USB-C Hub', revenue: 1679.72, quantitySold: 28 },
