@@ -122,6 +122,28 @@ class ApiClient {
   async getRecentActivity(fresh = false): Promise<RecentActivityData> {
     return this.fetch<RecentActivityData>('/api/v1/analytics/recent-activity', fresh);
   }
+
+  async simulateEvent(): Promise<{ success: boolean; eventType: string; message: string }> {
+    const token = this.getToken();
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/v1/analytics/simulate-event`, {
+      method: 'POST',
+      headers,
+    });
+
+    if (!response.ok) {
+      throw new Error(`API error: ${response.statusText}`);
+    }
+
+    return response.json();
+  }
 }
 
 export const apiClient = new ApiClient();

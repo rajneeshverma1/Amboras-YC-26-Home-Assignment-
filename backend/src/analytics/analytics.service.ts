@@ -334,4 +334,48 @@ export class AnalyticsService {
       return this.getRecentActivity(storeId);
     }
   }
+
+  async simulateEvent(storeId: string) {
+    const eventTypes = ['page_view', 'add_to_cart', 'purchase'];
+    const products = [
+      { id: 'prod_1', name: 'Wireless Headphones', price: 79.99 },
+      { id: 'prod_2', name: 'Smart Watch', price: 199.99 },
+      { id: 'prod_3', name: 'Laptop Stand', price: 49.99 },
+    ];
+    
+    const eventType = eventTypes[Math.floor(Math.random() * eventTypes.length)];
+    const product = products[Math.floor(Math.random() * products.length)];
+    
+    let data = null;
+    if (eventType === 'purchase') {
+      data = {
+        product_id: product.id,
+        product_name: product.name,
+        amount: product.price,
+        currency: 'USD',
+      };
+    } else if (eventType === 'add_to_cart') {
+      data = {
+        product_id: product.id,
+        product_name: product.name,
+      };
+    }
+    
+    await this.prisma.event.create({
+      data: {
+        eventId: `evt_${Date.now()}_${Math.floor(Math.random() * 10000)}`,
+        storeId,
+        eventType,
+        timestamp: new Date(),
+        data: data || undefined,
+      },
+    });
+    
+    // Clear cache to force fresh data
+    await this.redis.del(`overview:${storeId}`);
+    await this.redis.del(`top-products:${storeId}`);
+    await this.redis.del(`recent-activity:${storeId}`);
+    
+    return { success: true, eventType, message: 'Event created and cache cleared' };
+  }
 }

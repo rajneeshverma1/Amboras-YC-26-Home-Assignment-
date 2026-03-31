@@ -10,7 +10,7 @@ import { RecentActivity } from '@/components/dashboard/recent-activity';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { apiClient, OverviewData, TopProductsData, RecentActivityData } from '@/lib/api';
-import { DollarSign, ShoppingCart, Users, TrendingUp, LogOut } from 'lucide-react';
+import { DollarSign, ShoppingCart, Users, TrendingUp, LogOut, RefreshCw } from 'lucide-react';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -59,6 +59,18 @@ export default function DashboardPage() {
     router.push('/login');
   };
 
+  const handleSimulateEvent = async () => {
+    try {
+      setLoading(true);
+      // First, simulate a new event
+      await apiClient.simulateEvent();
+      // Then fetch fresh data
+      await fetchData(true);
+    } catch (err) {
+      setError('Failed to simulate event');
+    }
+  };
+
   // Format currency with locale support
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -77,10 +89,16 @@ export default function DashboardPage() {
               <h1 className="text-2xl font-bold text-gray-900">Store Analytics</h1>
               <p className="text-sm text-gray-500">Real-time insights into your business</p>
             </div>
-            <Button variant="outline" onClick={handleLogout}>
-              <LogOut className="w-4 h-4 mr-2" />
-              Sign Out
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={handleSimulateEvent}>
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Add Event & Refresh
+              </Button>
+              <Button variant="outline" onClick={handleLogout}>
+                <LogOut className="w-4 h-4 mr-2" />
+                Sign Out
+              </Button>
+            </div>
           </div>
         </div>
       </header>

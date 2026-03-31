@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Request, Query } from '@nestjs/common';
+import { Controller, Get, Post, UseGuards, Request, Query } from '@nestjs/common';
 import { AnalyticsService } from './analytics.service';
 import { OverviewResponseDto } from './dto/overview-response.dto';
 import { TopProductsResponseDto } from './dto/top-products-response.dto';
@@ -31,5 +31,10 @@ export class AnalyticsController {
   @Get('recent-activity')
   async getRecentActivity(@Request() req: RequestWithUser, @Query('fresh') fresh?: string): Promise<RecentActivityResponseDto> {
     return this.analyticsService.getRecentActivity(req.user.storeId, fresh === 'true');
+  }
+
+  @Post('simulate-event')
+  async simulateEvent(@Request() req: RequestWithUser) {
+    return this.analyticsService.simulateEvent(req.user.storeId);
   }
 }
