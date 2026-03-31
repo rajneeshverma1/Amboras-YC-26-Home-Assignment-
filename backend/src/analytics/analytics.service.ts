@@ -52,7 +52,12 @@ export class AnalyticsService {
     }
   }
 
-  async getOverview(storeId: string, fresh = false): Promise<OverviewResponseDto> {
+  async getOverview(
+    storeId: string,
+    fresh = false,
+    startDate?: Date,
+    endDate?: Date,
+  ): Promise<OverviewResponseDto> {
     const cacheKey = `overview:${storeId}`;
     
     if (!fresh) {

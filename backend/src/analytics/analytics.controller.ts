@@ -19,8 +19,18 @@ export class AnalyticsController {
   constructor(private readonly analyticsService: AnalyticsService) {}
 
   @Get('overview')
-  async getOverview(@Request() req: RequestWithUser, @Query('fresh') fresh?: string): Promise<OverviewResponseDto> {
-    return this.analyticsService.getOverview(req.user.storeId, fresh === 'true');
+  async getOverview(
+    @Request() req: RequestWithUser,
+    @Query('fresh') fresh?: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+  ): Promise<OverviewResponseDto> {
+    return this.analyticsService.getOverview(
+      req.user.storeId,
+      fresh === 'true',
+      startDate ? new Date(startDate) : undefined,
+      endDate ? new Date(endDate) : undefined,
+    );
   }
 
   @Get('top-products')
